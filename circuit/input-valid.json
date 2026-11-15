@@ -1,0 +1,15 @@
+{
+  "registeredVkHash": "0x6b79c6012a6d8651f3e13bc4d2a20370280ab49700c90c5316d4168bfbad77b0",
+  "proofVkHash": "0x6b79c6012a6d8651f3e13bc4d2a20370280ab49700c90c5316d4168bfbad77b0",
+  "minimum": 1000,
+  "publicBalance": 1460,
+  "expiryBlock": 8430000,
+  "currentBlock": 8420000,
+  "recipient": 12345,
+  "conditionRecipient": 12345,
+  "amount": 500,
+  "maxTransfer": 1000,
+  "decision": 1,
+  "taskId": 1,
+  "salt": 987654321
+}

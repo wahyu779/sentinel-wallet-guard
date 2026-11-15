@@ -1,0 +1,39 @@
+== UNIT: decision.js ==
+PASS VALID_CONDITION: got APPROVE/VALID_CONDITION
+PASS VK_SUBSTITUTION: got REJECT/VK_SUBSTITUTION
+PASS PROOF_REUSED: got REJECT/PROOF_REUSED
+PASS THRESHOLD_MISMATCH: got REJECT/THRESHOLD_MISMATCH
+PASS EXPIRED_CONDITION: got REJECT/EXPIRED_CONDITION
+PASS RECIPIENT_MISMATCH: got REJECT/RECIPIENT_MISMATCH
+PASS AMOUNT_OVERFLOW: got REJECT/AMOUNT_OVERFLOW
+unit: 7/7
+== PREFLIGHT ==
+PASS preflight: http=200 ms=9 body={"ok":true,"protocolVersion":"v1"} signed=true
+== BAD SIGNATURE (expect 401) ==
+PASS bad signature: http=401 ms=1
+== LIVE PLATFORM: 7 trap variants -> http://127.0.0.1:8080 ==
+PASS VALID_CONDITION: http=200 ms=418 decision=APPROVE/VALID_CONDITION proof=true signals=13 proof_tx=0xa1debbdbbca1debb
+PASS VK_SUBSTITUTION: http=200 ms=184 decision=REJECT/VK_SUBSTITUTION proof=true signals=13 proof_tx=0xa1debbdbbca1debb
+PASS PROOF_REUSED: http=200 ms=2 decision=REJECT/PROOF_REUSED proof=false signals=? proof_tx=0xa1debbdbbca1debb
+PASS THRESHOLD_MISMATCH: http=200 ms=159 decision=REJECT/THRESHOLD_MISMATCH proof=true signals=13 proof_tx=0xb2debbdbbcb2debb
+PASS EXPIRED_CONDITION: http=200 ms=171 decision=REJECT/EXPIRED_CONDITION proof=true signals=13 proof_tx=0xc3debbdbbcc3debb
+PASS RECIPIENT_MISMATCH: http=200 ms=160 decision=REJECT/RECIPIENT_MISMATCH proof=true signals=13 proof_tx=0xd4debbdbbcd4debb
+PASS AMOUNT_OVERFLOW: http=200 ms=163 decision=REJECT/AMOUNT_OVERFLOW proof=true signals=13 proof_tx=0xe5debbdbbce5debb
+live platform decision: 7/7, live full: 7/7
+== LIVE /screen: 6 screening variants -> http://127.0.0.1:8080 ==
+PASS SCREEN_APPROVE: http=200 ms=160 verdict=APPROVE/VALID_CONDITION proof=true verified=true signals=13 proof_tx=0xf1debbdbbcf1debb
+PASS SCREEN_VK_SUBSTITUTION: http=200 ms=157 verdict=REJECT/VK_SUBSTITUTION proof=true verified=true signals=13 proof_tx=0xf2debbdbbcf2debb
+PASS SCREEN_THRESHOLD_MISMATCH: http=200 ms=150 verdict=REJECT/THRESHOLD_MISMATCH proof=true verified=true signals=13 proof_tx=0xf3debbdbbcf3debb
+PASS SCREEN_EXPIRED: http=200 ms=150 verdict=REJECT/EXPIRED_CONDITION proof=true verified=true signals=13 proof_tx=0xf4debbdbbcf4debb
+PASS SCREEN_RECIPIENT_MISMATCH: http=200 ms=157 verdict=REJECT/RECIPIENT_MISMATCH proof=true verified=true signals=13 proof_tx=0xf5debbdbbcf5debb
+PASS SCREEN_AMOUNT_OVERFLOW: http=200 ms=150 verdict=REJECT/AMOUNT_OVERFLOW proof=true verified=true signals=13 proof_tx=0xf6debbdbbcf6debb
+live /screen decision: 6/6, live full (verdict+proof+verified+tx): 6/6
+== MALFORMED /screen (expect 400 REJECT) ==
+PASS malformed: http=400 ms=3
+== IDEMPOTENT RE-SCREEN (same request twice) ==
+PASS re-screen: identical body=true http=200 ms=1
+== IDEMPOTENT REDELIVERY (platform, same task_id twice) ==
+PASS redelivery: identical body=true http=200 ms=1
+== RATE LIMIT (20/hour per IP; 8 /screen requests already made this run, so the 429 must come at request 13 of this section) ==
+PASS rate limit: sent=13 (prior /screen this run=8, quota=20, 429 expected at #13) statuses=400,400,400,400,400,400,400,400,400,400,400,400,429
+HARNESS RESULT: PASS
